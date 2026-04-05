@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Leaf, ArrowRight } from 'lucide-react'
 import type { Product } from '@/types'
 
-export const metadata = { title: 'Products - Matcha OEM' }
+export const metadata = { title: 'Products - KUU Matcha' }
 
 export default async function ProductsPage() {
   const supabase = await createClient()
@@ -115,10 +115,10 @@ export default async function ProductsPage() {
         <h2 className="text-2xl font-bold text-[#1a3009] mb-4" style={{ fontFamily: 'var(--font-serif)' }}>
           Can&apos;t find what you need?
         </h2>
-        <p className="text-gray-600 mb-8">Contact us for custom grades, blends, or large-volume OEM pricing.</p>
+        <p className="text-gray-600 mb-8">Contact us for custom grades, blends, or large-volume private label pricing.</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/sample-order" className="btn-primary inline-flex items-center gap-2">Order Samples <ArrowRight size={16} /></Link>
-          <Link href="/quote" className="btn-gold inline-flex items-center gap-2">Request OEM Quote <ArrowRight size={16} /></Link>
+          <Link href="/quote" className="btn-gold inline-flex items-center gap-2">Start Your Private Label <ArrowRight size={16} /></Link>
         </div>
       </section>
     </>

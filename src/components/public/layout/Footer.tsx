@@ -14,11 +14,11 @@ export default function Footer() {
               </div>
               <div>
                 <span className="text-white font-semibold tracking-widest">MATCHA</span>
-                <span className="text-[#C9A84C] font-light ml-1 tracking-widest">OEM</span>
+                <span className="text-[#C9A84C] font-light ml-1 tracking-widest">KUU</span>
               </div>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
-              京都宇治産の最高品質抹茶をOEM・プライベートラベルで世界へお届けします。
+              Premium Japanese matcha for private label & custom brand sourcing worldwide.
             </p>
             <p className="text-gray-500 text-xs mt-3">
               Premium Japanese Matcha for the World
@@ -53,7 +53,7 @@ export default function Footer() {
             <h3 className="text-[#C9A84C] text-xs tracking-widest uppercase mb-4 font-medium">Services</h3>
             <ul className="space-y-2.5">
               {[
-                { href: '/oem', label: 'OEM Service' },
+                { href: '/oem', label: 'Private Label' },
                 { href: '/matcha', label: 'About Matcha' },
                 { href: '/about', label: 'About Us' },
                 { href: '/faq', label: 'FAQ' },

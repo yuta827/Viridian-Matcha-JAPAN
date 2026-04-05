@@ -8,11 +8,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="text-white font-bold text-2xl mb-3" style={{ fontFamily: 'var(--font-serif)' }}>
-              MATCHA OEM
+              KUU MATCHA
             </div>
             <p className="text-green-200 text-sm leading-relaxed max-w-xs">
               Premium Japanese matcha sourced from the finest tea gardens in Uji, Kyoto and Nishio, Aichi.
-              Trusted OEM partner for global brands.
+              Trusted private label partner for brands worldwide.
             </p>
             <div className="mt-4 text-xs text-green-400">
               Origin: Kyoto Uji / Aichi Nishio, Japan
@@ -27,7 +27,7 @@ export default function Footer() {
                 ['/', 'Home'],
                 ['/about', 'About Us'],
                 ['/matcha', 'Matcha'],
-                ['/oem', 'OEM Service'],
+                ['/oem', 'Private Label'],
                 ['/products', 'Products'],
                 ['/news', 'News'],
                 ['/faq', 'FAQ'],
@@ -50,7 +50,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/quote" className="block px-4 py-2 bg-[#b8963e] text-white hover:bg-[#d4af6a] transition-all text-center font-semibold text-xs">
-                  OEM Quote
+                  Private Label
                 </Link>
               </li>
               <li>
@@ -61,7 +61,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-green-400">© 2024 Matcha OEM Japan. All rights reserved.</p>
+          <p className="text-xs text-green-400">© {new Date().getFullYear()} KUU LLC (合同会社KUU). All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/privacy" className="text-xs text-green-400 hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="text-xs text-green-400 hover:text-white transition-colors">Terms of Service</Link>

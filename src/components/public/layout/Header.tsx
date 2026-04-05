@@ -7,7 +7,7 @@ import { Menu, X, Leaf } from 'lucide-react';
 const navItems = [
   { href: '/about', label: 'About' },
   { href: '/matcha', label: 'Matcha' },
-  { href: '/oem', label: 'OEM Service' },
+  { href: '/oem', label: 'Private Label' },
   { href: '/products', label: 'Products' },
   { href: '/news', label: 'News' },
   { href: '/faq', label: 'FAQ' },
@@ -28,7 +28,7 @@ export default function Header() {
             </div>
             <div>
               <span className="text-[#2D5016] font-semibold text-lg tracking-widest">MATCHA</span>
-              <span className="text-[#C9A84C] font-light text-sm tracking-widest ml-1">OEM</span>
+              <span className="text-[#C9A84C] font-light text-sm tracking-widest ml-1">KUU</span>
             </div>
           </Link>
 

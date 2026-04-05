@@ -23,7 +23,7 @@ export default async function HomePage() {
   const { products, faqs, cmsMap } = await getHomeData()
 
   const heroTitle = cmsMap['hero.title_en'] || 'Premium Japanese Matcha for Global Brands'
-  const heroSubtitle = cmsMap['hero.subtitle_en'] || 'Sourced from the finest tea gardens in Uji, Kyoto & Nishio, Aichi. Your trusted OEM partner for ceremonial, culinary, and organic matcha.'
+  const heroSubtitle = cmsMap['hero.subtitle_en'] || 'Sourced from the finest tea gardens in Uji, Kyoto & Nishio, Aichi. Your trusted private label partner for ceremonial, culinary, and organic matcha.'
 
   return (
     <>
@@ -45,7 +45,7 @@ export default async function HomePage() {
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-1.5 rounded-full text-green-200 text-xs tracking-widest mb-8">
             <Leaf size={12} />
-            JAPAN MATCHA OEM
+            JAPAN PRIVATE LABEL MATCHA
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
             style={{ fontFamily: 'var(--font-serif)' }}>
@@ -61,7 +61,7 @@ export default async function HomePage() {
             </Link>
             <Link href="/quote"
               className="px-8 py-4 border-2 border-[#b8963e] text-[#b8963e] hover:bg-[#b8963e] hover:text-white transition-all font-bold tracking-wide">
-              Request OEM Quote
+              Start Your Private Label
             </Link>
           </div>
           <div className="mt-12 grid grid-cols-3 gap-8 max-w-lg mx-auto">
@@ -107,7 +107,7 @@ export default async function HomePage() {
       <section className="section-padding bg-white">
         <div className="container-xl">
           <div className="text-center mb-14">
-            <div className="text-xs text-[#b8963e] tracking-widest mb-3 font-medium">OUR MATCHA</div>
+            <div className="text-xs text-[#b8963e] tracking-widest mb-3 font-medium">OUR MATCHA SELECTION</div>
             <h2 className="section-title">Three Lines of Excellence</h2>
             <div className="gold-divider" />
             <p className="text-gray-600 mt-4 max-w-xl mx-auto">
@@ -165,7 +165,7 @@ export default async function HomePage() {
           <div className="text-center mb-14">
             <div className="text-xs text-[#b8963e] tracking-widest mb-3 font-medium">HOW IT WORKS</div>
             <h2 className="text-3xl md:text-4xl font-bold text-white" style={{ fontFamily: 'var(--font-serif)' }}>
-              {cmsMap['oem_flow.title_en'] || 'OEM Service Flow'}
+              {cmsMap['oem_flow.title_en'] || 'How Private Label Works'}
             </h2>
             <div className="gold-divider" />
           </div>
@@ -191,7 +191,7 @@ export default async function HomePage() {
 
           <div className="text-center mt-12">
             <Link href="/oem" className="px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-[#1a3009] transition-all font-semibold inline-flex items-center gap-2">
-              Learn More About OEM <ArrowRight size={16} />
+              Explore Private Label Services <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -295,7 +295,7 @@ export default async function HomePage() {
         <div className="container-xl max-w-3xl text-center">
           <div className="text-xs text-[#b8963e] tracking-widest mb-3 font-medium">GET STARTED</div>
           <h2 className="section-title mb-4">
-            {cmsMap['cta.title_en'] || 'Ready to Start Your Matcha OEM Journey?'}
+            {cmsMap['cta.title_en'] || 'Ready to Launch Your Matcha Brand?'}
           </h2>
           <div className="gold-divider mb-6" />
           <p className="text-gray-600 mb-10">
@@ -306,7 +306,7 @@ export default async function HomePage() {
               {cmsMap['cta.sample_btn'] || 'Order Samples'} <ArrowRight size={16} />
             </Link>
             <Link href="/quote" className="btn-gold flex items-center justify-center gap-2">
-              {cmsMap['cta.quote_btn'] || 'Request OEM Quote'} <ArrowRight size={16} />
+              {cmsMap['cta.quote_btn'] || 'Start Your Private Label'} <ArrowRight size={16} />
             </Link>
           </div>
         </div>

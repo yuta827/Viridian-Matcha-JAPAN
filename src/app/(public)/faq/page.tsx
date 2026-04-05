@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 
-export const metadata = { title: 'FAQ - Matcha OEM' }
+export const metadata = { title: 'FAQ - KUU Matcha' }
 
 export default async function FaqPage() {
   const supabase = await createClient()
@@ -13,7 +13,7 @@ export default async function FaqPage() {
 
   const categories = [
     { key: 'general', label: 'General' },
-    { key: 'oem', label: 'OEM Service' },
+    { key: 'oem', label: 'Private Label' },
     { key: 'order', label: 'Orders & Samples' },
     { key: 'shipping', label: 'Shipping' },
     { key: 'payment', label: 'Payment' },
@@ -32,7 +32,7 @@ export default async function FaqPage() {
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-serif)' }}>
           Frequently Asked Questions
         </h1>
-        <p className="text-green-200 max-w-xl mx-auto">Everything you need to know about our matcha OEM service.</p>
+        <p className="text-green-200 max-w-xl mx-auto">Everything you need to know about our matcha private label and sourcing service.</p>
       </div>
 
       <section className="section-padding bg-[#faf8f3]">

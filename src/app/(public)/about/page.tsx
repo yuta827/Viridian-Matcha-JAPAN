@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { ArrowRight, Award, Leaf, Globe, Users, MapPin, Clock, Shield, Heart } from 'lucide-react'
 
 export const metadata = {
-  title: 'About Us - KUU LLC | Japanese Matcha OEM',
-  description: 'KUU LLC is a Japanese matcha OEM specialist based in Nagoya, partnering directly with renowned tea gardens in Uji (Kyoto) and Nishio (Aichi).',
+  title: 'About Us - KUU LLC | Japanese Matcha Private Label',
+  description: 'KUU LLC is a Japanese matcha private label specialist based in Nagoya, partnering directly with renowned tea gardens in Uji (Kyoto) and Nishio (Aichi).',
 }
 
 export default function AboutPage() {
@@ -28,7 +28,7 @@ export default function AboutPage() {
             日本の抹茶を、世界へ。
           </p>
           <p className="text-green-200 max-w-2xl mx-auto leading-relaxed">
-            KUU LLC is a matcha OEM specialist headquartered in Nagoya, Japan —
+            KUU LLC is a matcha private label & sourcing specialist headquartered in Nagoya, Japan —
             partnering directly with century-old tea gardens in Uji, Kyoto and Nishio, Aichi
             to bring authentic Japanese matcha to global brands.
           </p>
@@ -99,7 +99,7 @@ export default function AboutPage() {
               { icon: Award, value: '15+', label: 'Matcha Grades', sub: 'Premium to Standard' },
               { icon: Globe, value: '30+', label: 'Export Countries', sub: 'Europe · USA · Asia' },
               { icon: Users, value: '100+', label: 'Brand Partners', sub: 'Worldwide' },
-              { icon: Leaf, value: '5+', label: 'Years Experience', sub: 'Matcha OEM Specialist' },
+              { icon: Leaf, value: '5+', label: 'Years Experience', sub: 'Matcha Brand Partner' },
             ].map(({ icon: Icon, value, label, sub }) => (
               <div key={label} className="text-center p-6 bg-white border border-[#e8e0d0]">
                 <Icon className="text-[#b8963e] mx-auto mb-3" size={26} />
@@ -178,7 +178,7 @@ export default function AboutPage() {
                     ['Headquarters', '2-17-25 Higashisakura, Higashi-ku\nNagoya, Aichi 461-0005\nJapan'],
                     ['Email', 'maccha.kuu@gmail.com'],
                     ['Phone', '+81-52-990-2209'],
-                    ['Business', 'Matcha OEM Manufacturing\n& International Trade'],
+                    ['Business', 'Matcha Private Label\n& International Trade'],
                     ['Bank', 'Sumishin SBI Net Bank\nCorp. Branch 1 (0038-106)\nOrd. 3043430 — KUU LLC'],
                   ].map(([label, value]) => (
                     <tr key={label}>
@@ -270,7 +270,7 @@ export default function AboutPage() {
             {[
               'Direct contracts with Uji & Nishio tea gardens — no middlemen, lower cost',
               'Samples from 100g — test quality before any commitment',
-              'Full private-label & custom OEM packaging capabilities',
+              'Full private-label & custom packaging capabilities',
               'JAS Organic, pesticide residue test reports, and lab certificates available',
               'Fully bilingual (English & Japanese) — seamless international communication',
               'Quotes and responses within 1–2 business days',
@@ -306,7 +306,7 @@ export default function AboutPage() {
             Order Samples <ArrowRight size={16} />
           </Link>
           <Link href="/quote" className="px-8 py-3 border-2 border-[#b8963e] text-[#b8963e] hover:bg-[#b8963e] hover:text-white transition-all font-bold">
-            Request OEM Quote
+            Start Your Private Label
           </Link>
         </div>
       </section>

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Leaf, ArrowRight } from 'lucide-react'
 
-export const metadata = { title: 'Matcha - Matcha OEM' }
+export const metadata = { title: 'About Matcha - KUU Matcha' }
 
 export default function MatchaPage() {
   return (

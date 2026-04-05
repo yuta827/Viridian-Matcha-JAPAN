@@ -7,7 +7,7 @@ import { Menu, X } from 'lucide-react'
 const navLinks = [
   { href: '/about', label: 'About Us' },
   { href: '/matcha', label: 'Matcha' },
-  { href: '/oem', label: 'OEM Service' },
+  { href: '/oem', label: 'Private Label' },
   { href: '/products', label: 'Products' },
   { href: '/news', label: 'News' },
   { href: '/faq', label: 'FAQ' },
@@ -24,7 +24,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <div className="text-white font-bold text-xl tracking-wider" style={{ fontFamily: 'var(--font-serif)' }}>
-              MATCHA OEM
+              KUU MATCHA
             </div>
             <div className="hidden sm:block w-px h-5 bg-white/30" />
             <div className="hidden sm:block text-green-300 text-xs tracking-widest">JAPAN</div>

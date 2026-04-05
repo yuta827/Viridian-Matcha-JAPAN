@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { formatDate } from '@/lib/utils'
 
-export const metadata = { title: 'News - Matcha OEM' }
+export const metadata = { title: 'News - KUU Matcha' }
 
 export default async function NewsPage() {
   const supabase = await createClient()

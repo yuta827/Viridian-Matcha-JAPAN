@@ -10,7 +10,7 @@ import {
   SHIPPING_COUNTRIES,
 } from '@/lib/shipping'
 
-// OEM 大口注文の送料概算クイックリファレンス
+// 大口注文の送料概算クイックリファレンス
 const OEM_SHIPPING_REFERENCE = [
   { label: '5kg', weightKg: 5 },
   { label: '10kg', weightKg: 10 },
@@ -101,9 +101,9 @@ function QuoteForm() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
       <div className="text-center mb-10">
-        <div className="text-xs text-[#b8963e] tracking-widest mb-2">OEM INQUIRY</div>
+        <div className="text-xs text-[#b8963e] tracking-widest mb-2">BRAND PARTNERSHIP INQUIRY</div>
         <h1 className="text-3xl font-bold text-[#1a3009] mb-3" style={{ fontFamily: 'var(--font-serif)' }}>
-          Request OEM Quote
+          Start Your Private Label
         </h1>
         <p className="text-gray-600">Fill in your requirements and we&apos;ll prepare a custom proposal.</p>
       </div>
@@ -127,7 +127,7 @@ function QuoteForm() {
             <table className="w-full text-xs">
               <thead className="bg-[#faf8f3]">
                 <tr>
-                  <th className="px-3 py-2.5 text-left text-gray-600">OEM Quantity</th>
+                  <th className="px-3 py-2.5 text-left text-gray-600">Order Quantity</th>
                   <th className="px-3 py-2.5 text-center bg-green-50 text-[#2d5016] font-bold">🇪🇺 Europe EMS (Zone 3)</th>
                   <th className="px-3 py-2.5 text-center bg-blue-50 text-blue-800 font-bold">🇺🇸 USA EMS (Zone 4)</th>
                   <th className="px-3 py-2.5 text-center text-gray-500">Note</th>
@@ -281,7 +281,7 @@ function QuoteForm() {
 
         <button type="submit" disabled={loading}
           className="btn-gold w-full flex items-center justify-center gap-2 py-4 disabled:opacity-50">
-          {loading ? 'Submitting...' : 'Submit OEM Inquiry'} {!loading && <ArrowRight size={16} />}
+          {loading ? 'Submitting...' : 'Submit Brand Inquiry'} {!loading && <ArrowRight size={16} />}
         </button>
 
         <p className="text-xs text-center text-gray-400">

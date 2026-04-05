@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
 })
 
 const ADMIN_EMAIL = process.env.GMAIL_USER || 'maccha.kuu@gmail.com'
-const SITE_NAME = 'Matcha OEM | KUU LLC'
+const SITE_NAME = 'KUU Matcha | KUU LLC'
 
 // ────────────────────────────────────────────────
 // お問い合わせ通知（管理者宛）
@@ -107,7 +107,7 @@ export async function sendInquiryAutoReply(data: {
   email: string
   company_name?: string
 }) {
-  const subject = `[${data.inquiry_number}] お問い合わせを受け付けました / Inquiry Received - Matcha OEM`
+  const subject = `[${data.inquiry_number}] お問い合わせを受け付けました / Inquiry Received - KUU Matcha`
 
   const html = `
 <!DOCTYPE html>
@@ -129,13 +129,13 @@ export async function sendInquiryAutoReply(data: {
 <body>
 <div class="container">
   <div class="header">
-    <h1>🍵 MATCHA OEM</h1>
+    <h1>🍵 KUU MATCHA</h1>
     <p>KUU LLC（合同会社KUU）</p>
   </div>
   <div class="body">
     <p>${data.contact_person} 様${data.company_name ? `<br><small style="color:#666">${data.company_name}</small>` : ''}</p>
 
-    <p>この度はMatcha OEMへお問い合わせいただき、誠にありがとうございます。<br>
+    <p>この度はKUU Matchaへお問い合わせいただき、誠にありがとうございます。<br>
     以下の内容でお問い合わせを受け付けました。</p>
 
     <div class="highlight">
@@ -155,7 +155,7 @@ export async function sendInquiryAutoReply(data: {
 
     <p class="en">
       Dear ${data.contact_person},<br><br>
-      Thank you for contacting Matcha OEM (KUU LLC). We have received your inquiry 
+      Thank you for contacting KUU Matcha (KUU LLC). We have received your inquiry 
       <strong>${data.inquiry_number}</strong> and will respond within 1–2 business days.<br><br>
       For urgent matters, please contact us at <a href="mailto:maccha.kuu@gmail.com">maccha.kuu@gmail.com</a>.
     </p>
@@ -171,7 +171,7 @@ export async function sendInquiryAutoReply(data: {
 `
 
   await transporter.sendMail({
-    from: `"Matcha OEM | KUU LLC" <${ADMIN_EMAIL}>`,
+    from: `"KUU Matcha | KUU LLC" <${ADMIN_EMAIL}>`,
     to: data.email,
     subject,
     html,
@@ -194,7 +194,7 @@ export async function sendQuoteNotification(data: {
   delivery_schedule?: string
   notes?: string
 }) {
-  const subject = `【OEM見積依頼】${data.contact_person}${data.company_name ? ` / ${data.company_name}` : ''} (${data.country || '国不明'})`
+  const subject = `【プライベートラベル見積依頼】${data.contact_person}${data.company_name ? ` / ${data.company_name}` : ''} (${data.country || '国不明'})`
 
   const html = `
 <!DOCTYPE html>
@@ -218,7 +218,7 @@ export async function sendQuoteNotification(data: {
 <body>
 <div class="container">
   <div class="header">
-    <h1>📋 OEM見積依頼</h1>
+    <h1>📋 プライベートラベル見積依頼</h1>
     <p>${SITE_NAME}</p>
   </div>
   <div class="body">
@@ -276,7 +276,7 @@ export async function sendQuoteAutoReply(data: {
   email: string
   company_name?: string
 }) {
-  const subject = `お見積もり依頼を受け付けました / OEM Quote Request Received - Matcha OEM`
+  const subject = `お見積もり依頼を受け付けました / Private Label Quote Request Received - KUU Matcha`
 
   const html = `
 <!DOCTYPE html>
@@ -297,13 +297,13 @@ export async function sendQuoteAutoReply(data: {
 <body>
 <div class="container">
   <div class="header">
-    <h1>🍵 MATCHA OEM</h1>
+    <h1>🍵 KUU MATCHA</h1>
     <p>KUU LLC（合同会社KUU）</p>
   </div>
   <div class="body">
     <p>${data.contact_person} 様${data.company_name ? `<br><small style="color:#666">${data.company_name}</small>` : ''}</p>
 
-    <p>OEM見積もりのご依頼をいただき、誠にありがとうございます。<br>
+    <p>プライベートラベル・見積もりのご依頼をいただき、誠にありがとうございます。<br>
     内容を確認の上、<strong>2〜3営業日以内</strong>に詳細なお見積もりをお送りいたします。</p>
 
     <div class="highlight">
@@ -316,7 +316,7 @@ export async function sendQuoteAutoReply(data: {
 
     <p class="en">
       Dear ${data.contact_person},<br><br>
-      Thank you for submitting your OEM quote request. We have received your inquiry 
+      Thank you for submitting your private label quote request. We have received your inquiry 
       and will prepare a detailed proposal within 2–3 business days.<br><br>
       Feel free to contact us at <a href="mailto:maccha.kuu@gmail.com">maccha.kuu@gmail.com</a> 
       for any questions.
@@ -332,7 +332,7 @@ export async function sendQuoteAutoReply(data: {
 `
 
   await transporter.sendMail({
-    from: `"Matcha OEM | KUU LLC" <${ADMIN_EMAIL}>`,
+    from: `"KUU Matcha | KUU LLC" <${ADMIN_EMAIL}>`,
     to: data.email,
     subject,
     html,

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'プライバシーポリシー / Privacy Policy - Matcha OEM | KUU LLC',
+  title: 'プライバシーポリシー / Privacy Policy - KUU Matcha | KUU LLC',
 }
 
 export default function PrivacyPage() {
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
                   ['代表者', '代表社員'],
                   ['メール', 'maccha.kuu@gmail.com'],
                   ['電話番号', '052-990-2209'],
-                  ['事業内容', '抹茶OEM製造・販売、国際取引'],
+                  ['事業内容', '抹茶プライベートラベル・輸出入・国際取引'],
                 ].map(([label, value]) => (
                   <tr key={label} className="border-b border-gray-100">
                     <td className="py-2.5 pr-4 text-gray-500 w-32 shrink-0">{label}</td>
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
             <ul className="mt-3 space-y-1.5 text-sm list-disc list-inside marker:text-[#2d5016]">
               <li>お問い合わせ・見積依頼・サンプル注文への対応</li>
               <li>商品の発送・配送状況の連絡</li>
-              <li>OEM取引に関する提案・見積書の送付</li>
+              <li>プライベートラベル・カスタム注文に関する提案・見積書の送付</li>
               <li>請求書・領収書などの発行</li>
               <li>当社サービスに関するご案内・情報提供</li>
               <li>サービス改善のための統計分析（個人を特定しない形式）</li>
