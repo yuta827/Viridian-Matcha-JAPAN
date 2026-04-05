@@ -1,14 +1,17 @@
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { generateInquiryNumber } from '@/lib/utils'
+import { sendInquiryNotification, sendInquiryAutoReply } from '@/lib/mailer'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
     const supabase = createAdminClient()
 
+    const inquiryNumber = body.inquiry_number || generateInquiryNumber()
+
     const { data, error } = await supabase.from('inquiries').insert({
-      inquiry_number: body.inquiry_number || generateInquiryNumber(),
+      inquiry_number: inquiryNumber,
       company_name: body.company_name,
       contact_person: body.contact_person,
       country: body.country,
@@ -26,6 +29,34 @@ export async function POST(request: Request) {
     if (error) {
       console.error('Inquiry insert error:', error)
       return NextResponse.json({ error: error.message }, { status: 400 })
+    }
+
+    // メール通知（失敗してもAPIは成功扱い）
+    try {
+      await Promise.all([
+        // 管理者への通知
+        sendInquiryNotification({
+          inquiry_number: inquiryNumber,
+          company_name: body.company_name,
+          contact_person: body.contact_person,
+          country: body.country,
+          email: body.email,
+          phone: body.phone,
+          interested_product: body.interested_product,
+          desired_quantity: body.desired_quantity,
+          notes: body.notes,
+        }),
+        // お客様への自動返信
+        sendInquiryAutoReply({
+          inquiry_number: inquiryNumber,
+          contact_person: body.contact_person,
+          email: body.email,
+          company_name: body.company_name,
+        }),
+      ])
+      console.log(`✅ Emails sent for inquiry ${inquiryNumber}`)
+    } catch (mailErr) {
+      console.error('Mail send error (non-fatal):', mailErr)
     }
 
     return NextResponse.json({ success: true, data })
