@@ -3,13 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft, Save } from 'lucide-react'
 import { slugify } from '@/lib/utils'
 
 export default function NewProductPage() {
   const router = useRouter()
-  const supabase = createClient()
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -47,15 +45,20 @@ export default function NewProductPage() {
     setSaving(true)
     setError('')
 
-    const { error } = await supabase.from('products').insert({
-      ...form,
-      sample_price_usd: form.sample_price_usd ? parseFloat(form.sample_price_usd) : null,
-      moq: parseInt(String(form.moq)) || 1,
-      sort_order: parseInt(String(form.sort_order)) || 0,
+    const res = await fetch('/api/admin/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...form,
+        sample_price_usd: form.sample_price_usd ? parseFloat(form.sample_price_usd) : null,
+        moq: parseInt(String(form.moq)) || 1,
+        sort_order: parseInt(String(form.sort_order)) || 0,
+      }),
     })
 
-    if (error) {
-      setError(error.message)
+    if (!res.ok) {
+      const data = await res.json()
+      setError(data.error || '保存に失敗しました')
       setSaving(false)
       return
     }

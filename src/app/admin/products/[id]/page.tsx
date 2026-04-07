@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { slugify } from '@/lib/utils'
 
@@ -11,7 +10,6 @@ export default function EditProductPage() {
   const router = useRouter()
   const params = useParams()
   const id = params.id as string
-  const supabase = createClient()
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -26,9 +24,10 @@ export default function EditProductPage() {
   })
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data } = await supabase.from('products').select('*').eq('id', id).single()
-      if (data) {
+    const fetchProduct = async () => {
+      const res = await fetch(`/api/admin/products/${id}`)
+      if (res.ok) {
+        const data = await res.json()
         setForm({
           ...data,
           sample_price_usd: data.sample_price_usd?.toString() || '',
@@ -36,7 +35,7 @@ export default function EditProductPage() {
       }
       setLoading(false)
     }
-    fetch()
+    fetchProduct()
   }, [id])
 
   const set = (k: string, v: any) => setForm(f => ({ ...f, [k]: v }))
@@ -46,20 +45,29 @@ export default function EditProductPage() {
     setSaving(true)
     setError('')
 
-    const { error } = await supabase.from('products').update({
-      ...form,
-      sample_price_usd: form.sample_price_usd ? parseFloat(form.sample_price_usd) : null,
-      moq: parseInt(String(form.moq)) || 1,
-      sort_order: parseInt(String(form.sort_order)) || 0,
-    }).eq('id', id)
+    const res = await fetch(`/api/admin/products/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...form,
+        sample_price_usd: form.sample_price_usd ? parseFloat(form.sample_price_usd) : null,
+        moq: parseInt(String(form.moq)) || 1,
+        sort_order: parseInt(String(form.sort_order)) || 0,
+      }),
+    })
 
-    if (error) { setError(error.message); setSaving(false); return }
+    if (!res.ok) {
+      const data = await res.json()
+      setError(data.error || '保存に失敗しました')
+      setSaving(false)
+      return
+    }
     router.push('/admin/products')
   }
 
   const handleDelete = async () => {
     if (!confirm('この商品を削除しますか？')) return
-    await supabase.from('products').delete().eq('id', id)
+    await fetch(`/api/admin/products/${id}`, { method: 'DELETE' })
     router.push('/admin/products')
   }
 
