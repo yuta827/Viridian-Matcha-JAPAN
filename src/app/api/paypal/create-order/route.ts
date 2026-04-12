@@ -55,11 +55,11 @@ export async function POST(request: NextRequest) {
             },
             quantity: String(item.quantity),
           })),
-          description: 'Matcha OEM Sample Order',
+          description: 'KUU Matcha Sample Order',
         },
       ],
       application_context: {
-        brand_name: 'Matcha OEM',
+        brand_name: 'KUU Matcha',
         return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/order/complete`,
         cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/sample-order`,
       },

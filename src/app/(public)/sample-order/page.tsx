@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 import { CheckCircle, ArrowRight, Leaf, Plus, Minus, Trash2, Package, Globe, Truck, Info } from 'lucide-react'
@@ -39,6 +39,9 @@ function SampleOrderContent() {
   const [step, setStep] = useState<'select' | 'checkout' | 'success'>('select')
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [paypalLoaded, setPaypalLoaded] = useState(false)
+  const [paypalError, setPaypalError] = useState('')
+  const paypalContainerRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
 
   const [form, setForm] = useState({
@@ -53,6 +56,107 @@ function SampleOrderContent() {
   const productTotal = cart.reduce((s, i) => s + (i.product.sample_price_usd || 0) * i.quantity, 0)
 
   // 送料計算（国選択後）
+  // PayPal SDK ロード
+  useEffect(() => {
+    const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
+    if (!clientId || document.getElementById('paypal-sdk')) return
+    const script = document.createElement('script')
+    script.id = 'paypal-sdk'
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&intent=capture`
+    script.onload = () => setPaypalLoaded(true)
+    script.onerror = () => setPaypalError('PayPal の読み込みに失敗しました')
+    document.head.appendChild(script)
+    // すでに読み込み済みの場合
+    if ((window as any).paypal) setPaypalLoaded(true)
+  }, [])
+
+  // PayPal ボタンのレンダリング（チェックアウト画面 + 国選択済み + PayPal選択時）
+  useEffect(() => {
+    if (!paypalLoaded || step !== 'checkout' || form.payment_method !== 'paypal') return
+    if (!form.country || shippingCalc?.zone === 'unknown') return
+    if (!paypalContainerRef.current) return
+
+    const container = paypalContainerRef.current
+    container.innerHTML = ''
+
+    const paypal = (window as any).paypal
+    if (!paypal) return
+
+    const finalShipping = calculateSampleShipping(totalQuantity, form.country)
+    const itemsTotal = productTotal
+    const shippingTotal = finalShipping.recommendedPriceUSD ?? 0
+    const orderTotal = itemsTotal + shippingTotal
+
+    paypal.Buttons({
+      style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal', height: 45 },
+      createOrder: async () => {
+        const res = await fetch('/api/paypal/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: [
+              ...cart.map(item => ({
+                name: item.product.name_en || item.product.name,
+                price: item.product.sample_price_usd || 0,
+                quantity: item.quantity,
+              })),
+              ...(shippingTotal > 0 ? [{ name: 'Shipping', price: shippingTotal, quantity: 1 }] : []),
+            ],
+            customerInfo: { email: form.email, name: form.contact_person },
+          }),
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || 'PayPal order creation failed')
+        return data.orderId
+      },
+      onApprove: async (data: { orderID: string }) => {
+        setSubmitting(true)
+        const finalShipping2 = calculateSampleShipping(totalQuantity, form.country)
+        const line_items = cart.map(item => ({
+          product_id: item.product.id,
+          product_name: item.product.name_en || item.product.name,
+          grade: item.product.grade,
+          quantity: item.quantity,
+          unit: '100g',
+          unit_price_usd: item.product.sample_price_usd,
+          total_usd: (item.product.sample_price_usd || 0) * item.quantity,
+        }))
+        await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order_number: generateOrderNumber('SMP'),
+            order_type: 'sample',
+            email: form.email,
+            company_name: form.company_name,
+            contact_person: form.contact_person,
+            country: form.country,
+            phone: form.phone,
+            shipping_address: { name: form.contact_person, address1: form.address1, address2: form.address2, city: form.city, state: form.state, postal_code: form.postal_code, country: form.country },
+            line_items,
+            subtotal_usd: itemsTotal,
+            shipping_usd: finalShipping2.recommendedPriceUSD,
+            shipping_jpy: finalShipping2.recommendedPriceJPY,
+            shipping_zone: finalShipping2.zone,
+            shipping_weight_g: finalShipping2.weightGrams,
+            shipping_method: finalShipping2.recommended === 'ePacketLight' ? '国際eパケットライト' : 'EMS',
+            total_usd: orderTotal,
+            payment_method: 'paypal',
+            payment_status: 'payment_confirmed',
+            paypal_order_id: data.orderID,
+            order_status: 'confirmed',
+          }),
+        })
+        setSubmitting(false)
+        setStep('success')
+      },
+      onError: (err: any) => {
+        console.error('PayPal error:', err)
+        setPaypalError('PayPal の処理中にエラーが発生しました。もう一度お試しください。')
+      },
+    }).render(container)
+  }, [paypalLoaded, step, form.payment_method, form.country, totalQuantity, productTotal])
+
   const shippingCalc = useMemo(() => {
     if (!form.country || totalQuantity === 0) return null
     return calculateSampleShipping(totalQuantity, form.country)
@@ -166,7 +270,7 @@ function SampleOrderContent() {
         <p className="text-sm text-gray-500 mb-8">
           {form.payment_method === 'bank_transfer'
             ? 'Bank transfer details will be sent to your email.'
-            : 'We will contact you shortly with payment instructions.'}
+            : 'Payment confirmed via PayPal. We will ship your samples within 3–5 business days.'}
         </p>
         <a href="/" className="btn-primary inline-flex items-center gap-2">Back to Home <ArrowRight size={16} /></a>
       </div>
@@ -330,15 +434,38 @@ function SampleOrderContent() {
                 <input type="radio" name="payment" value="paypal" checked={form.payment_method === 'paypal'} onChange={() => setForm(f => ({ ...f, payment_method: 'paypal' }))} className="mt-0.5" />
                 <div>
                   <div className="font-medium text-[#1a3009]">PayPal</div>
-                  <div className="text-xs text-gray-500">Available soon. We will contact you with a PayPal payment link.</div>
+                  <div className="text-xs text-gray-500">Pay securely via PayPal. Credit cards accepted via PayPal.</div>
                 </div>
               </label>
+
+              {/* PayPal ボタンエリア */}
+              {form.payment_method === 'paypal' && (
+                <div className="pt-2">
+                  {!form.country || shippingCalc?.zone === 'unknown' ? (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs p-3 rounded">
+                      ⚠️ Please select a valid shipping country above to enable PayPal.
+                    </div>
+                  ) : submitting ? (
+                    <div className="text-center py-4 text-gray-500 text-sm">Processing payment...</div>
+                  ) : (
+                    <>
+                      <div ref={paypalContainerRef} className="min-h-[50px]" />
+                      {paypalError && (
+                        <p className="text-red-600 text-xs mt-2">{paypalError}</p>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
-            <button type="submit" disabled={submitting || !form.country || shippingCalc?.zone === 'unknown'}
-              className="btn-primary w-full py-4 flex items-center justify-center gap-2 disabled:opacity-50">
-              {submitting ? 'Processing...' : 'Place Order'} {!submitting && <ArrowRight size={16} />}
-            </button>
+            {/* 銀行振込のみ Place Order ボタン表示 */}
+            {form.payment_method === 'bank_transfer' && (
+              <button type="submit" disabled={submitting || !form.country || shippingCalc?.zone === 'unknown'}
+                className="btn-primary w-full py-4 flex items-center justify-center gap-2 disabled:opacity-50">
+                {submitting ? 'Processing...' : 'Place Order'} {!submitting && <ArrowRight size={16} />}
+              </button>
+            )}
           </form>
 
           {/* Order Summary */}
