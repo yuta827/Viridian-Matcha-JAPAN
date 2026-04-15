@@ -28,9 +28,27 @@ export default function EditProductPage() {
       const res = await fetch(`/api/admin/products/${id}`)
       if (res.ok) {
         const data = await res.json()
+        // product_images / created_at / updated_at など余分なフィールドを除外してセット
         setForm({
-          ...data,
+          name: data.name || '',
+          name_en: data.name_en || '',
+          slug: data.slug || '',
+          line: data.line || 'premium',
+          grade: data.grade || '',
+          grade_label: data.grade_label || '',
+          grade_label_en: data.grade_label_en || '',
+          description: data.description || '',
+          description_en: data.description_en || '',
+          moq: data.moq ?? 1,
+          packaging: data.packaging || '',
+          origin: data.origin || '京都府宇治・愛知県西尾',
+          usage_suggestions: data.usage_suggestions || '',
+          usage_suggestions_en: data.usage_suggestions_en || '',
           sample_price_usd: data.sample_price_usd?.toString() || '',
+          inquiry_type: data.inquiry_type || 'both',
+          is_recommended: data.is_recommended ?? false,
+          is_visible: data.is_visible ?? true,
+          sort_order: data.sort_order ?? 0,
         })
       }
       setLoading(false)
@@ -49,9 +67,24 @@ export default function EditProductPage() {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        ...form,
-        sample_price_usd: form.sample_price_usd ? parseFloat(form.sample_price_usd) : null,
+        name: form.name,
+        name_en: form.name_en,
+        slug: form.slug,
+        line: form.line,
+        grade: form.grade,
+        grade_label: form.grade_label,
+        grade_label_en: form.grade_label_en,
+        description: form.description,
+        description_en: form.description_en,
         moq: parseInt(String(form.moq)) || 1,
+        packaging: form.packaging,
+        origin: form.origin,
+        usage_suggestions: form.usage_suggestions,
+        usage_suggestions_en: form.usage_suggestions_en,
+        sample_price_usd: form.sample_price_usd ? parseFloat(form.sample_price_usd) : null,
+        inquiry_type: form.inquiry_type,
+        is_recommended: form.is_recommended,
+        is_visible: form.is_visible,
         sort_order: parseInt(String(form.sort_order)) || 0,
       }),
     })
