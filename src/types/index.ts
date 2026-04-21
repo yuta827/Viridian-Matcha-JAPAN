@@ -1,4 +1,4 @@
-export type ProductLine = 'premium' | 'standard' | 'organic'
+export type ProductLine = 'premium' | 'standard' | 'organic' | 'hojicha'
 export type InquiryType = 'order' | 'inquiry' | 'both'
 
 export interface Product {
@@ -18,6 +18,7 @@ export interface Product {
   usage_suggestions?: string
   usage_suggestions_en?: string
   sample_price_usd?: number
+  bulk_price_usd?: number
   inquiry_type: InquiryType
   is_recommended: boolean
   is_visible: boolean
