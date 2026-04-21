@@ -863,8 +863,13 @@ function SampleOrderContent() {
           ) : products.map(product => {
             const img = (product.product_images as any[])?.find((i: any) => i.is_primary) || (product.product_images as any[])?.[0]
             const cartItem = cart.find(i => i.product.id === product.id)
+            const isHojichaProduct = (product.grade_label_en || '').toLowerCase().startsWith('hojicha') || product.slug.startsWith('hojicha-')
             const lineColor = product.line === 'organic' ? 'bg-amber-100 text-amber-800' :
-              product.line === 'premium' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+              product.line === 'premium' ? 'bg-green-100 text-green-800' :
+              isHojichaProduct ? 'bg-orange-100 text-orange-800' : 'bg-blue-100 text-blue-800'
+            const lineLabel = product.line === 'organic' ? 'Organic' :
+              product.line === 'premium' ? 'Premium' :
+              isHojichaProduct ? 'Hojicha' : 'Standard'
             return (
               <div key={product.id} className={`bg-white border p-4 flex items-center gap-4 transition-all ${cartItem ? 'border-[#2d5016] shadow-sm' : 'border-gray-200'}`}>
                 <div className="w-16 h-16 bg-[#faf8f3] flex-shrink-0 overflow-hidden">
@@ -874,7 +879,7 @@ function SampleOrderContent() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className={`text-xs px-1.5 py-0.5 font-medium ${lineColor}`}>
-                      {product.line === 'organic' ? 'Organic' : product.line === 'premium' ? 'Premium' : 'Standard'}
+                      {lineLabel}
                     </span>
                     <span className="text-xs text-[#b8963e] font-mono font-bold">Grade {product.grade}</span>
                   </div>
