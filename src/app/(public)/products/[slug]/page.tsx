@@ -83,6 +83,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 ))}
               </div>
             )}
+            {/* 画像注意書き */}
+            <p className="mt-3 text-[11px] text-gray-400 leading-relaxed">
+              ※ 画像はイメージです。実際の商品は袋にてお届けいたします。<br />
+              <span className="text-gray-300">* Product images are for illustrative purposes only. Products are delivered in bags.</span>
+            </p>
           </div>
 
           {/* ── Product Info ─────────────────────── */}

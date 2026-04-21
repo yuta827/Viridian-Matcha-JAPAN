@@ -115,6 +115,16 @@ export default async function ProductsPage() {
         </div>
       </div>
 
+      {/* ── 画像イメージ注意書き ───────────────────── */}
+      <div className="bg-amber-50 border-b border-amber-200 py-3 px-6">
+        <div className="max-w-4xl mx-auto flex items-center justify-center gap-2 text-xs text-amber-800">
+          <span className="text-amber-500">※</span>
+          <span>掲載している画像はイメージです。実際の商品は袋にてお届けいたします。</span>
+          <span className="hidden sm:inline text-amber-400">|</span>
+          <span className="hidden sm:inline">The product images shown are for illustrative purposes only. Products are delivered in bags.</span>
+        </div>
+      </div>
+
       {/* ── Product Sections ─────────────────────── */}
       <section className="section-padding bg-white">
         <div className="container-xl space-y-20">
