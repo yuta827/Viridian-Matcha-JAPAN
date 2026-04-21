@@ -36,35 +36,101 @@ const SHIPPING_REFERENCE = [
 // 配送料金テーブル（Japan Post 2026.1.1現在）
 // ─────────────────────────────────────────────────────────
 
-// EMS料金表（円）: 地帯1(中国・韓国・台湾) / 地帯2(アジア) / 地帯3(欧州・北米等) / 地帯4(米国) / 地帯5(中南米・アフリカ)
+// EMS料金表（円）: 地帯1(中国・韓国・台湾) / 地帯2(アジア) / 地帯3(欧州・北米等合計) / 地帯4(米国合計) / 地帯5(中南米・アフリカ)
+// Source: Japan Post EMS料金表 2026.1.1現在
+// ※第3・第4地帯は「料金+特別追加料金」の合計値を記載
 const EMS_FULL: Record<string, number[]> = {
-  // weightLabel: [zone1, zone2, zone3, zone4, zone5]
-  '500g':  [1450, 1900, 2900, 3500, 3600],
-  '750g':  [1750, 2400, 3300, 3900, 3900],
-  '1kg':   [2200, 3300, 3900, 4400, 4800],
-  '1.5kg': [2800, 4200, 4800, 5540, 6600],
-  '2kg':   [3400, 4550, 5700, 6300, 8100],
-  '3kg':   [4400, 5750, 7300, 7900, 11100],
-  '5kg':   [6400, 8150, 10500, 11100, 17100],
+  // weightLabel: [zone1, zone2, zone3(合計), zone4(合計), zone5]
+  '500g':   [1450,  1900,  3150,  3900,  3600],
+  '600g':   [1600,  2100,  3400,  4180,  3900],
+  '700g':   [1750,  2400,  3650,  4460,  4200],
+  '800g':   [1900,  2650,  3900,  4740,  4500],
+  '900g':   [2050,  2900,  4150,  5020,  4800],
+  '1kg':    [2200,  3300,  4400,  5300,  5100],
+  '1.25kg': [2500,  3500,  5000,  5990,  5850],
+  '1.5kg':  [2800,  3800,  5550,  6600,  6600],
+  '1.75kg': [3100,  4200,  6150,  7290,  7350],
+  '2kg':    [3400,  4550,  6700,  7900,  8100],
+  '2.5kg':  [3900,  5000,  7700,  9100,  9600],
+  '3kg':    [4400,  5750,  8800,  10300, 11100],
+  '3.5kg':  [4900,  6300,  9800,  11500, 11500],
+  '4kg':    [5400,  6950,  10900, 12700, 12700],
+  '4.5kg':  [5900,  7350,  11950, 13900, 13900],
+  '5kg':    [6400,  8150,  13000, 15100, 17100],
+  '5.5kg':  [6900,  8700,  14100, 16300, 18300],
+  '6kg':    [7400,  9350,  15100, 17500, 20100],
+  '7kg':    [8200,  10600, 17300, 19900, 22500],
+  '8kg':    [9000,  11350, 19300, 22300, 24900],
+  '9kg':    [9800,  12100, 21050, 24700, 27300],
+  '10kg':   [10600, 13350, 23500, 27100, 29700],
+  '11kg':   [11400, 14400, 25500, 29500, 32100],
+  '12kg':   [12200, 15350, 27700, 31900, 34500],
+  '13kg':   [13000, 16350, 29900, 34300, 36900],
+  '14kg':   [13800, 17350, 31900, 36700, 39300],
+  '15kg':   [14600, 18350, 34000, 39100, 41700],
+  '16kg':   [15400, 19350, 36100, 41500, 44100],
+  '17kg':   [16200, 20350, 38200, 43900, 46500],
+  '18kg':   [17000, 21350, 40200, 46300, 48900],
+  '19kg':   [17800, 22350, 42400, 48700, 51300],
+  '20kg':   [18600, 23350, 44500, 51100, 53700],
+  '25kg':   [22600, 28350, 55000, 63100, 65700],
+  '30kg':   [26600, 33350, 65500, 75100, 77700],
 }
 
 // eパケットライト料金表（円）: 地帯1 / 地帯2 / 地帯3 / 地帯4 / 地帯5  ※2kgまで
+// Source: Japan Post 国際eパケットライト料金表 2026.1.1現在（国際特定記録料金¥370含む）
 const EPACKET_FULL: Record<string, number[]> = {
-  '250g': [720,  750,  880,  1200, 920],
-  '500g': [1120, 1230, 1600, 2040, 1960],
-  '750g': [1320, 1470, 1960, 2460, 2480],
-  '1kg':  [1620, 1830, 2500, 3090, 3260],
-  '1.5kg':[2120, 2430, 3400, 4140, 4560],
-  '2kg':  [2620, 3030, 4300, 5190, 5860],
+  '100g':  [720,  750,  880,  1200, 920],
+  '200g':  [820,  870,  1060, 1410, 1180],
+  '300g':  [920,  990,  1240, 1620, 1440],
+  '400g':  [1020, 1110, 1420, 1830, 1700],
+  '500g':  [1120, 1230, 1600, 2040, 1960],
+  '600g':  [1220, 1350, 1780, 2250, 2220],
+  '700g':  [1320, 1470, 1960, 2460, 2480],
+  '800g':  [1420, 1590, 2140, 2670, 2740],
+  '900g':  [1520, 1710, 2320, 2880, 3000],
+  '1kg':   [1620, 1830, 2500, 3090, 3260],
+  '1.1kg': [1720, 1950, 2680, 3300, 3520],
+  '1.2kg': [1820, 2070, 2860, 3510, 3780],
+  '1.3kg': [1920, 2190, 3040, 3720, 4040],
+  '1.4kg': [2020, 2310, 3220, 3930, 4300],
+  '1.5kg': [2120, 2430, 3400, 4140, 4560],
+  '1.6kg': [2220, 2550, 3580, 4350, 4820],
+  '1.7kg': [2320, 2670, 3760, 4560, 5080],
+  '1.8kg': [2420, 2790, 3940, 4770, 5340],
+  '1.9kg': [2520, 2910, 4120, 4980, 5600],
+  '2kg':   [2620, 3030, 4300, 5190, 5860],
+}
+
+// 国際小包郵便料金表（円）: 地帯1 / 地帯2 / 地帯3 / 地帯4 / 地帯5 ※航空便・30kgまで
+// Source: Japan Post 国際小包郵便料金表 2026.1.1現在
+const PARCEL_FULL: Record<string, number[]> = {
+  // weightLabel: [zone1, zone2, zone3(合計), zone4(合計), zone5]
+  '1kg':   [2050,  2500,  3850,  4200,  2700],
+  '2kg':   [2750,  3700,  6000,  6700,  3400],
+  '3kg':   [3450,  4900,  8150,  9200,  4100],
+  '4kg':   [4150,  6100,  10300, 11700, 4800],
+  '5kg':   [4850,  7300,  12450, 14200, 5500],
+  '6kg':   [5550,  8500,  14600, 16700, 6200],
+  '7kg':   [6250,  9700,  16750, 19200, 6900],
+  '8kg':   [6950,  10900, 18900, 21700, 7600],
+  '9kg':   [7650,  12100, 21050, 24200, 8300],
+  '10kg':  [8350,  13350, 23500, 27100, 9000],
+  '15kg':  [11850, 18350, 34000, 38700, 12500],
+  '20kg':  [15350, 23350, 44500, 50300, 16000],
+  '25kg':  [18850, 28350, 55000, 61900, 19500],
+  '30kg':  [18350, 26300, 55200, 64850, 21000],
 }
 
 const ZONE_INFO = [
   { label: 'Zone 1', region: 'China / Korea / Taiwan', flag: '🇨🇳🇰🇷🇹🇼', color: 'bg-violet-50 text-violet-800' },
   { label: 'Zone 2', region: 'Asia (excl. Zone 1)', flag: '🌏', color: 'bg-sky-50 text-sky-800' },
-  { label: 'Zone 3', region: 'Europe / Oceania / Canada / Mexico', flag: '🇪🇺🌍', color: 'bg-emerald-50 text-emerald-800' },
-  { label: 'Zone 4', region: 'USA (incl. Guam)', flag: '🇺🇸', color: 'bg-blue-50 text-blue-800' },
-  { label: 'Zone 5', region: 'Central & South America / Africa', flag: '🌎🌍', color: 'bg-amber-50 text-amber-800' },
+  { label: 'Zone 3', region: 'Europe / Oceania / Canada / Middle East', flag: '🇪🇺🌍', color: 'bg-emerald-50 text-emerald-800' },
+  { label: 'Zone 4', region: 'USA incl. Guam / Saipan', flag: '🇺🇸', color: 'bg-blue-50 text-blue-800' },
+  { label: 'Zone 5', region: 'C. & S. America / Africa', flag: '🌎🌍', color: 'bg-amber-50 text-amber-800' },
 ]
+
+type ShippingService = 'ems' | 'epacket' | 'parcel'
 
 const JPY_USD = 0.0067 // ¥149/$ 参考レート
 
@@ -75,15 +141,14 @@ function fmtUSD(jpy: number) {
   return `$${(jpy * JPY_USD).toFixed(0)}`
 }
 
-type ShippingTab = 'ems' | 'epacket'
-
 function ShippingRatesSection() {
-  const [activeTab, setActiveTab] = useState<ShippingTab>('epacket')
+  const [activeTab, setActiveTab] = useState<ShippingService>('epacket')
   const [highlightZone, setHighlightZone] = useState<number | null>(null)
 
-  const emsRows = Object.entries(EMS_FULL)
-  const epRows  = Object.entries(EPACKET_FULL)
-  const rows = activeTab === 'ems' ? emsRows : epRows
+  const emsRows    = Object.entries(EMS_FULL)
+  const epRows     = Object.entries(EPACKET_FULL)
+  const parcelRows = Object.entries(PARCEL_FULL)
+  const rows = activeTab === 'ems' ? emsRows : activeTab === 'parcel' ? parcelRows : epRows
 
   const zoneColBg = [
     'bg-violet-50/60',
@@ -121,10 +186,10 @@ function ShippingRatesSection() {
       </div>
 
       {/* タブ切替 */}
-      <div className="flex gap-1 mb-0 border-b border-[#e8e0d0]">
+      <div className="flex gap-1 mb-0 border-b border-[#e8e0d0] flex-wrap">
         <button
           onClick={() => setActiveTab('epacket')}
-          className={`px-5 py-2.5 text-xs font-semibold transition-all border-b-2 -mb-px ${
+          className={`px-4 py-2.5 text-xs font-semibold transition-all border-b-2 -mb-px ${
             activeTab === 'epacket'
               ? 'border-[#2d5016] text-[#1a3009] bg-white'
               : 'border-transparent text-gray-400 hover:text-gray-600 bg-transparent'
@@ -132,13 +197,13 @@ function ShippingRatesSection() {
         >
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-            国際eパケットライト
-            <span className="ml-1 text-[10px] font-normal text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">≤2kg · Recommended</span>
+            eパケットライト
+            <span className="ml-1 text-[10px] font-normal text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">≤2kg · お勧め</span>
           </span>
         </button>
         <button
           onClick={() => setActiveTab('ems')}
-          className={`px-5 py-2.5 text-xs font-semibold transition-all border-b-2 -mb-px ${
+          className={`px-4 py-2.5 text-xs font-semibold transition-all border-b-2 -mb-px ${
             activeTab === 'ems'
               ? 'border-[#2d5016] text-[#1a3009] bg-white'
               : 'border-transparent text-gray-400 hover:text-gray-600 bg-transparent'
@@ -146,8 +211,22 @@ function ShippingRatesSection() {
         >
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" />
-            EMS（国際スピード郵便）
-            <span className="ml-1 text-[10px] font-normal text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded">Up to 30kg · Express</span>
+            EMS（速達）
+            <span className="ml-1 text-[10px] font-normal text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded">≤30kg · 3-7日</span>
+          </span>
+        </button>
+        <button
+          onClick={() => setActiveTab('parcel')}
+          className={`px-4 py-2.5 text-xs font-semibold transition-all border-b-2 -mb-px ${
+            activeTab === 'parcel'
+              ? 'border-[#2d5016] text-[#1a3009] bg-white'
+              : 'border-transparent text-gray-400 hover:text-gray-600 bg-transparent'
+          }`}
+        >
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-orange-500 inline-block" />
+            国際小包
+            <span className="ml-1 text-[10px] font-normal text-orange-700 bg-orange-50 px-1.5 py-0.5 rounded">≤30kg · 経済的</span>
           </span>
         </button>
       </div>
@@ -211,12 +290,20 @@ function ShippingRatesSection() {
               <span>✓ 国際特定記録料金 ¥370 含む</span>
               <span>✓ 郵便受け配達</span>
             </>
-          ) : (
+          ) : activeTab === 'ems' ? (
             <>
               <span>✓ 世界120以上の国・地域に対応</span>
               <span>✓ 最大重量 30kg</span>
               <span>✓ 追跡・損害賠償 200万円まで</span>
               <span>✓ 最速 3–7営業日</span>
+              <span>✓ 第3・第4地帯は特別追加料金込み</span>
+            </>
+          ) : (
+            <>
+              <span>✓ 航空便（追跡あり）</span>
+              <span>✓ 最大重量 30kg</span>
+              <span>✓ 損害賠償 6,000円まで</span>
+              <span>✓ 経済的な選択肢</span>
             </>
           )}
           <span className="ml-auto text-gray-400">Source: Japan Post (2026.1.1) · USD est. ¥149/$</span>
@@ -227,17 +314,17 @@ function ShippingRatesSection() {
       <details className="mt-2 group">
         <summary className="text-[11px] text-[#2d5016] cursor-pointer hover:underline flex items-center gap-1 w-fit select-none">
           <Info size={11} />
-          View zone-to-country reference
+          地帯別 対象国・地域一覧を表示
           <span className="text-gray-400 group-open:hidden">▼</span>
           <span className="text-gray-400 hidden group-open:inline">▲</span>
         </summary>
         <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 text-[10px]">
           {[
-            { zone: 'Zone 1', bg: 'bg-violet-50 border-violet-200', text: 'text-violet-800', countries: 'China, Hong Kong, South Korea, Taiwan' },
-            { zone: 'Zone 2', bg: 'bg-sky-50 border-sky-200', text: 'text-sky-800', countries: 'India, Indonesia, Cambodia, Singapore, Sri Lanka, Thailand, Nepal, Pakistan, Bangladesh, Philippines, Bhutan, Brunei, Vietnam, Hong Kong, Macao, Malaysia, Myanmar, Mongolia, Laos' },
-            { zone: 'Zone 3', bg: 'bg-emerald-50 border-emerald-200', text: 'text-emerald-800', countries: 'Australia, New Zealand, Fiji, Samoa — Canada, Mexico — Israel, UAE, Turkey, Saudi Arabia, Iran — All European countries (Germany, France, UK, Italy, Spain, etc.)' },
-            { zone: 'Zone 4', bg: 'bg-blue-50 border-blue-200', text: 'text-blue-800', countries: 'United States, Guam, Saipan' },
-            { zone: 'Zone 5', bg: 'bg-amber-50 border-amber-200', text: 'text-amber-800', countries: 'Argentina, Uruguay, Ecuador, El Salvador, Guadeloupe, Cuba, Costa Rica, Colombia, Jamaica, Chile, Trinidad & Tobago, Panama, Paraguay, Brazil, Venezuela, Peru, Honduras, Martinique — Algeria, Uganda, Egypt, Ethiopia, Ghana, Gabon, Kenya, Côte d\'Ivoire, Sierra Leone, Zimbabwe, Senegal, Tanzania, Tunisia, China, Togo, Nigeria, Botswana, Madagascar, South Africa, Mauritius, Morocco, Rwanda, Réunion' },
+            { zone: 'Zone 1 🇨🇳🇰🇷🇹🇼', bg: 'bg-violet-50 border-violet-200', text: 'text-violet-800', countries: '中国・韓国・台湾・香港' },
+            { zone: 'Zone 2 🌏', bg: 'bg-sky-50 border-sky-200', text: 'text-sky-800', countries: 'インド、インドネシア、カンボジア、シンガポール、スリランカ、タイ、ネパール、パキスタン、バングラデシュ、フィリピン、ブータン、ブルネイ、ベトナム、香港、マカオ、マレーシア、ミャンマー、モルディブ、モンゴル、ラオス' },
+            { zone: 'Zone 3 🇪🇺🌍', bg: 'bg-emerald-50 border-emerald-200', text: 'text-emerald-800', countries: '【オセアニア】オーストラリア、ニュージーランド、フィジー等　【北米】カナダ、メキシコ　【中近東】イスラエル、UAE、トルコ、サウジアラビア等　【ヨーロッパ】ドイツ、フランス、英国、イタリア、スペイン、スウェーデン等すべてのヨーロッパ諸国' },
+            { zone: 'Zone 4 🇺🇸', bg: 'bg-blue-50 border-blue-200', text: 'text-blue-800', countries: 'アメリカ合衆国、グアム、サイパン（北マリアナ諸島）' },
+            { zone: 'Zone 5 🌎', bg: 'bg-amber-50 border-amber-200', text: 'text-amber-800', countries: '【中南米】アルゼンチン、ブラジル、チリ、コロンビア、ペルー、メキシコを除く中南米諸国　【アフリカ】エジプト、エチオピア、南アフリカ共和国、モロッコ等アフリカ諸国' },
           ].map(z => (
             <div key={z.zone} className={`border ${z.bg} ${z.text} p-2 rounded`}>
               <div className="font-bold mb-0.5">{z.zone}</div>
