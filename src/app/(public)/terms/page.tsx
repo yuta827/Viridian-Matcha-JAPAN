@@ -26,7 +26,7 @@ export default function TermsPage() {
             <tbody>
               {[
                 { label: '販売事業者', value: '合同会社KUU（KUU LLC）' },
-                { label: '代表責任者', value: '山田 裕太' },
+                { label: '代表責任者', value: '福井 修司' },
                 {
                   label: '所在地',
                   value: '〒461-0005\n愛知県名古屋市東区東桜2-17-25\nレジディア東桜Ⅱ 207',
